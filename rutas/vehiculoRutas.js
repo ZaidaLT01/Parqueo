@@ -41,7 +41,7 @@ rutas.put('/editar/:id',async(req,res)=>{
     try{
         const vehiculoEditado= await VehiculoModel.findByIdAndUpdate(req.params.id, req.body, {new :true});
         if(!vehiculoEditado)
-            return res.status(404).json({mensaje:"Vehiculo no o"});
+            return res.status(404).json({mensaje:"Vehiculo no editado"});
         else
             return res.status(201).json(vehiculoEditado);
     }catch(error){

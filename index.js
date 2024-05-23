@@ -11,7 +11,7 @@ const revokedTokens = new Set();
 
 //rutas
 const vehiculoRutas = require('./rutas/vehiculoRutas');
-
+const espacioRutas = require('./rutas/espacioRutas');
 
 //configuraciones enviroment
 const PORT = process.env.PORT||9000;
@@ -61,3 +61,4 @@ app.post('/cerrarsesion', autenticar, (req, res) => {
 
 app.use('/auth', authRutas);
 app.use('/vehiculos', autenticar, vehiculoRutas);
+app.use('/espacios', autenticar, espacioRutas);
