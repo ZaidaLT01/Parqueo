@@ -4,6 +4,8 @@ const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const revokedTokens = new Set();
+
 //Registro 
 rutas.post('/registro', async (req, res) => {
     try {
@@ -40,3 +42,18 @@ rutas.post('/iniciarsesion', async (req, res) => {
     }
 });
 module.exports = rutas;
+/*Cerrar Sesion
+rutas.post('/cerrarsesion', async (req, res) => {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+    
+    // Agregar el token a la lista de revocados
+    revokedTokens.add(token);
+
+    res.status(200).json({ mensaje: 'Sesión cerrada exitosamente' });
+    }
+    catch(error){
+        res.status(500).json({mensaje: error.message});
+    }
+});*/
+

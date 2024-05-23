@@ -6,7 +6,8 @@ const authRutas = require('./rutas/authRutas');
 const Usuario = require('./models/Usuario');
 require('dotenv').config();
 const app = express();
-
+//conjunto para almacenar token en cada solicitud
+const revokedTokens = new Set();
 
 //rutas
 const vehiculoRutas = require('./rutas/vehiculoRutas');
@@ -34,6 +35,12 @@ mongoose.connect(MONGO_URI)
         const token = req.headers.authorization?.split(' ')[1];
         if (!token)
             res.status(401).json({mensaje: 'No existe el token de autenticacion'});
+        
+        // Verificar si el token está en la lista de tokens revocados
+        if (revokedTokens.has(token))
+        return res.status(401).json({ mensaje: 'Token revocado' });
+
+        //continua
         const decodificar = jwt.verify(token, 'clave_secreta');
         req.usuario = await  Usuario.findById(decodificar.usuarioId);
         next();
@@ -42,6 +49,15 @@ mongoose.connect(MONGO_URI)
         res.status(400).json({ error: 'token Invalido'});
     }
 };
+
+app.post('/cerrarsesion', autenticar, (req, res) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    // Agregar el token a la lista de revocados
+    revokedTokens.add(token);
+
+    res.status(200).json({ mensaje: 'Sesión cerrada exitosamente' });
+});
 
 app.use('/auth', authRutas);
 app.use('/vehiculos', autenticar, vehiculoRutas);

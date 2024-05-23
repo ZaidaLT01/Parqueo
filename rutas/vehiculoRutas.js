@@ -62,7 +62,7 @@ rutas.delete('/eliminar/:id',async(req,res)=>{
     }
 });
 
-//endpoint 5- obtener un Vehiculo por su ID
+//Consulta 1 obtener un Vehiculo por su ID
 rutas.get('/vehiculoObt/:id', async (req, res) => {
     try {
         const vehiculo = await VehiculoModel.findById(req.params.id);
@@ -75,7 +75,7 @@ rutas.get('/vehiculoObt/:id', async (req, res) => {
     }
 });
 
-//- eliminar todos los vehiculos
+//Consulta 2 eliminar todos los vehiculos
 rutas.delete('/eliminarTodos', async (req, res) => {
     try {
         await RecetaModel.deleteMany({ });
@@ -85,7 +85,7 @@ rutas.delete('/eliminarTodos', async (req, res) => {
     }
 });
 
-//- contar el numero total de Vehiculos
+//Consulta 3 contar el numero total de Vehiculos
 rutas.get('/totalVehiculos', async (req, res) => {
     try {
         const total = await VehiculoModel.countDocuments();
@@ -94,7 +94,7 @@ rutas.get('/totalVehiculos', async (req, res) => {
         res.status(500).json({ mensaje :  error.message})
     }
 });
-//- obtener Vehiculos ordenadas por nombre ascendente
+//Consulta 4 obtener Vehiculos ordenadas por nombre ascendente
 // query.sort({ field: 'asc', test: -1 });
 rutas.get('/ordenarVehiculos', async (req, res) => {
     try {
